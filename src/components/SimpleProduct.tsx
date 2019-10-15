@@ -28,6 +28,8 @@ export default class SimpleProduct extends React.PureComponent<IProps, IState> {
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleValueChange = this.handleValueChange.bind(this);
         this.handleAmountChange = this.handleAmountChange.bind(this);
+        this.handleAmountIncrease = this.handleAmountIncrease.bind(this);
+        this.handleAmountDecrease = this.handleAmountDecrease.bind(this);
         this.handleSave = this.handleSave.bind(this);
 
         //one new thing is, that the state will be initialized by properties that are set when the component is created in the container element:
@@ -50,7 +52,11 @@ export default class SimpleProduct extends React.PureComponent<IProps, IState> {
                     <td><input type="number" name="value" value={this.state.product.product_value} onChange={this.handleValueChange} /> €</td>
                     <td><input type="number" name="amount" value={this.state.product.product_amount} onChange={this.handleAmountChange} />pcs.</td>
                     <td>{this.state.product.product_totalPrice} €</td>
-                    <td><button onClick={this.handleSave} id={this.state.product._id}>save</button></td>
+                    <td>
+                        <button onClick={this.handleAmountIncrease} id={this.state.product._id}>Amount + </button>
+                        <button onClick={this.handleAmountDecrease} id={this.state.product._id}>Amount - </button>
+                        <button onClick={this.handleSave} id={this.state.product._id}>save</button>
+                    </td>
                 </tr>
             )
         else
@@ -110,6 +116,29 @@ export default class SimpleProduct extends React.PureComponent<IProps, IState> {
 
     handleSave(event: any) {
         this.setState({ edit_mode: false });
+    }
+    handleAmountIncrease(event:any) {
+        this.setState({
+            product: {
+                _id: this.state.product._id,
+                product_name: this.state.product.product_name,
+                product_value: this.state.product.product_value,
+                product_amount: (this.state.product.product_amount +1),
+                product_totalPrice: (this.state.product.product_value * (this.state.product.product_amount +1)),
+            }
+        });
+
+    }
+    handleAmountDecrease() {
+        this.setState({
+            product: {
+                _id: this.state.product._id,
+                product_name: this.state.product.product_name,
+                product_value: this.state.product.product_value,
+                product_amount: (this.state.product.product_amount -1),
+                product_totalPrice: (this.state.product.product_value * (this.state.product.product_amount -1)),
+            }
+        });
     }
 
 }
