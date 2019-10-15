@@ -1,82 +1,84 @@
 import React from 'react';
-import SimpleAsset from './components/SimpleAsset'
+import SimpleProduct from './components/SimpleProduct'
 import mongoose from 'mongoose';
 
 interface IProps { }
 
-export interface IAssetData {
+export interface IProductData {
   _id: string;
-  asset_name: string;
-  asset_value: number;
+  product_name: string; //description
+  product_value: number; // value
+  product_amount: number; // amount
 }
 
 interface IState {
-  assets: IAssetData[];
+  products: IProductData[];
 }
 
 export default class App extends React.PureComponent<IProps, IState> {
 
   constructor(props: IProps) {
-    console.log("new App component will be initialized");
     super(props);
 
-    this.handleCreateAsset = this.handleCreateAsset.bind(this);
-    this.handleDeleteAsset = this.handleDeleteAsset.bind(this);
+    this.handleCreateProduct = this.handleCreateProduct.bind(this);
+    this.handleDeleteProduct = this.handleDeleteProduct.bind(this);
 
-    const exampleAsset = {
+    const exampleProduct = {
       _id: mongoose.Types.ObjectId().toString(),
-      asset_name: "This is an example, press Edit to change name and Value",
-      asset_value: 0
+      product_name: "This is an example, press Edit to change name and Value",
+      product_value: 0,
+      product_amount: 0
     }
 
     this.state = {
-      assets: [exampleAsset]
+      products: [exampleProduct]
     }
   }
   render() {
     return (
       <div>
-        <h1>simple asset management application</h1>
-        <p>to create a new asset click this button:&nbsp;
-          <button onClick={this.handleCreateAsset}>create asset</button>
+        <h1>simple product management application</h1>
+        <p>to create a new product click this button:&nbsp;
+          <button onClick={this.handleCreateProduct}>create product</button>
         </p>
         <table>
           <tbody>
-            <tr><th>description</th><th>value</th><th>action</th></tr>
-            {this.state.assets.map(asset=> <SimpleAsset key={asset._id} onDelete={this.handleDeleteAsset} asset={asset} edit={false} />)}
+            <tr><th>description</th><th>value</th><th>amount</th><th>action</th></tr>
+            {this.state.products.map(product=> 
+            <SimpleProduct key={product._id} onDelete={this.handleDeleteProduct} product={product} edit={false} />)}
           </tbody>
         </table>
       </div>
     );
   }
-  handleCreateAsset() {
-    console.log("handleCreateAsset invoked");
-    const newAsset: IAssetData = {
+  handleCreateProduct() {
+    const newProduct: IProductData = {
       _id: mongoose.Types.ObjectId().toString(),
-      asset_name: "new Asset",
-      asset_value:0
+      product_name: "new Product",
+      product_value:0,
+      product_amount:0
     }
-    let newAssets = this.state.assets.slice();
-    newAssets.push(newAsset);
+    let newProducts = this.state.products.slice();
+    newProducts.push(newProduct);
     this.setState(
       {
-        assets: newAssets
+        products: newProducts
       }
     );
-    console.log(newAsset);
+    console.log(newProduct);
   }
-  handleDeleteAsset(event: any) {
+  handleDeleteProduct(event: any) {
     const button = event.target as HTMLButtonElement
-    const IdOfAssetToDelete = button.id;
-    console.log("Delete asset with _id:" + IdOfAssetToDelete);
+    const IdOfProductToDelete = button.id;
+    console.log("Delete product with _id:" + IdOfProductToDelete);
 
-    let newAssets = this.state.assets.filter(asset => {
-      console.log("asset._id:" + asset._id + " IdOfAssetToDelete:" + IdOfAssetToDelete + " " + (asset._id !== IdOfAssetToDelete));
-      return asset._id !== IdOfAssetToDelete;
+    let newProducts = this.state.products.filter(product => {
+      console.log("product._id:" + product._id + " IdOfProductToDelete:" + IdOfProductToDelete + " " + (product._id !== IdOfProductToDelete));
+      return product._id !== IdOfProductToDelete;
     })
     this.setState(
       {
-        assets: newAssets
+        products: newProducts
       }
     );
   }
