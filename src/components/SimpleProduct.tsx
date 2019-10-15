@@ -49,6 +49,7 @@ export default class SimpleProduct extends React.PureComponent<IProps, IState> {
                     <td><input type="text" name="name" value={this.state.product.product_name} onChange={this.handleNameChange} /></td>
                     <td><input type="number" name="value" value={this.state.product.product_value} onChange={this.handleValueChange} /> €</td>
                     <td><input type="number" name="amount" value={this.state.product.product_amount} onChange={this.handleAmountChange} />pcs.</td>
+                    <td>{this.state.product.product_totalPrice} €</td>
                     <td><button onClick={this.handleSave} id={this.state.product._id}>save</button></td>
                 </tr>
             )
@@ -58,6 +59,7 @@ export default class SimpleProduct extends React.PureComponent<IProps, IState> {
                     <td>{this.state.product.product_name}</td>
                     <td>{this.state.product.product_value} €</td>
                     <td>{this.state.product.product_amount} pcs.</td>
+                    <td>{this.state.product.product_totalPrice} €</td>
                     <td>
                         <button onClick={this.handleEdit}>edit</button>
                         <button onClick={this.state.delete_function} id={this.state.product._id}>sell or dispose</button>
@@ -77,6 +79,7 @@ export default class SimpleProduct extends React.PureComponent<IProps, IState> {
                 product_name: inputElement.value,
                 product_value: this.state.product.product_value,
                 product_amount: this.state.product.product_amount,
+                product_totalPrice: this.state.product.product_totalPrice,
             }
         });
     }
@@ -88,6 +91,7 @@ export default class SimpleProduct extends React.PureComponent<IProps, IState> {
                 product_name: this.state.product.product_name,
                 product_value: parseFloat(inputElement.value),
                 product_amount: this.state.product.product_amount,
+                product_totalPrice: (this.state.product.product_amount * parseFloat(inputElement.value)),
             }
         });
     }
@@ -99,6 +103,7 @@ export default class SimpleProduct extends React.PureComponent<IProps, IState> {
                 product_name: this.state.product.product_name,
                 product_value: this.state.product.product_value,
                 product_amount: parseFloat(inputElement.value),
+                product_totalPrice: (this.state.product.product_value * parseFloat(inputElement.value)),
             }
         });
     }

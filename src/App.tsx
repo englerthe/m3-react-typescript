@@ -9,6 +9,7 @@ export interface IProductData {
   product_name: string; //description
   product_value: number; // value
   product_amount: number; // amount
+  product_totalPrice: number; // total price
 }
 
 interface IState {
@@ -27,7 +28,8 @@ export default class App extends React.PureComponent<IProps, IState> {
       _id: mongoose.Types.ObjectId().toString(),
       product_name: "This is an example, press Edit to change name and Value",
       product_value: 0,
-      product_amount: 0
+      product_amount: 0,
+      product_totalPrice: 0
     }
 
     this.state = {
@@ -43,7 +45,7 @@ export default class App extends React.PureComponent<IProps, IState> {
         </p>
         <table>
           <tbody>
-            <tr><th>description</th><th>value</th><th>amount</th><th>action</th></tr>
+            <tr><th>description</th><th>value</th><th>amount</th><th>total price</th><th>action</th></tr>
             {this.state.products.map(product=> 
             <SimpleProduct key={product._id} onDelete={this.handleDeleteProduct} product={product} edit={false} />)}
           </tbody>
@@ -56,7 +58,8 @@ export default class App extends React.PureComponent<IProps, IState> {
       _id: mongoose.Types.ObjectId().toString(),
       product_name: "new Product",
       product_value:0,
-      product_amount:0
+      product_amount:0,
+      product_totalPrice:0
     }
     let newProducts = this.state.products.slice();
     newProducts.push(newProduct);
